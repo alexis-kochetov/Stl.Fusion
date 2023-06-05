@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Stl.DependencyInjection;
 
 public static class ServiceProviderExt
@@ -43,7 +45,13 @@ public static class ServiceProviderExt
     public static T Activate<T>(this IServiceProvider services, params object[] arguments)
         => (T) services.Activate(typeof(T), arguments);
 
-    public static object Activate(this IServiceProvider services, Type instanceType, params object[] arguments)
+    public static object Activate(
+        this IServiceProvider services, 
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+#endif
+        Type instanceType, 
+        params object[] arguments)
         => ActivatorUtilities.CreateInstance(services, instanceType, arguments);
 
     // GetRequiredMixedModeService

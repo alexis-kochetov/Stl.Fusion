@@ -1,6 +1,16 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Stl.Conversion.Internal;
 
-public class FuncConverter<TSource, TTarget> : Converter<TSource, TTarget>
+public class FuncConverter<
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+    TSource, 
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+    TTarget> : Converter<TSource, TTarget>
 {
     public Func<TSource, TTarget> Converter { get; init; }
     public Func<TSource, Option<TTarget>> TryConverter { get; init; }

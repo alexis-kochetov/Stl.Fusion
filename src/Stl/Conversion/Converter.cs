@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Stl.Conversion.Internal;
 
 namespace Stl.Conversion;
@@ -17,7 +18,15 @@ public abstract class Converter<TSource> : Converter
     protected Converter() => SourceType = typeof(TSource);
 }
 
-public abstract class Converter<TSource, TTarget> : Converter<TSource>, IConverter<TSource, TTarget>
+public abstract class Converter<
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+    TSource,
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+    TTarget> : Converter<TSource>, IConverter<TSource, TTarget>
 {
     public static Converter<TSource, TTarget> Unavailable { get; set; } =
         FuncConverter<TSource>.New<TTarget>(

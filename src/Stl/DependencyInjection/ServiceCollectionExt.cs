@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
@@ -33,13 +34,20 @@ public static class ServiceCollectionExt
     }
 
     // Settings
-
-    public static IServiceCollection AddSettings<TSettings>(
+    
+    public static IServiceCollection AddSettings<
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+        TSettings>(
         this IServiceCollection services,
         string? sectionName = null)
         => services.AddSettings(typeof(TSettings), sectionName);
     public static IServiceCollection AddSettings(
         this IServiceCollection services,
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
         Type settingsType,
         string? sectionName = null)
     {

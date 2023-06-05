@@ -1,5 +1,8 @@
 using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Components;
+#if NET5_0_OR_GREATER 
+using System.Diagnostics.CodeAnalysis;
+#endif
 
 namespace Stl.Fusion.Blazor;
 
@@ -11,10 +14,23 @@ public sealed class ComponentInfo
     public bool HasCustomParameterComparers { get; }
     public IReadOnlyDictionary<string, ComponentParameterInfo> Parameters { get; }
 
-    public static ComponentInfo Get(Type componentType)
-        => ComponentInfoCache.GetOrAdd(componentType, static componentType1 => new ComponentInfo(componentType1));
-
-    private ComponentInfo(Type type)
+    public static ComponentInfo Get(
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
+        Type componentType)
+        => ComponentInfoCache.GetOrAdd(componentType,
+            static (
+#if NET5_0_OR_GREATER        
+                [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
+                componentType1) => new ComponentInfo(componentType1));
+    
+    private ComponentInfo(
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
+#endif
+        Type type)
     {
         if (!typeof(IComponent).IsAssignableFrom(type))
             throw new ArgumentOutOfRangeException(nameof(type));

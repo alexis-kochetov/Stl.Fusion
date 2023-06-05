@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 
@@ -11,8 +12,13 @@ public class ComponentFor : ComponentBase
     /// <summary>
     /// The type of component to render.
     /// </summary>
-    [Parameter]
-    public Type? Type { get; set; } = null;
+    [Parameter] public Type? Type {
+#if NET6_0_OR_GREATER    
+        [return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+        get;
+        set;
+    } = null;
 
     /// <summary>
     /// The parameters of the component to set.

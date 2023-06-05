@@ -10,6 +10,12 @@
     <!-- Signing -->
     <DefineConstants Condition="'$(PUBLIC_BUILD)' != ''">$(DefineConstants);SIGN_ASSEMBLIES</DefineConstants>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <SuppressTrimAnalysisWarnings>false</SuppressTrimAnalysisWarnings>
+    <ILLinkTreatWarningsAsErrors>true</ILLinkTreatWarningsAsErrors>
+  </PropertyGroup>
 
   <!-- Suppressed warnings -->
   <PropertyGroup>

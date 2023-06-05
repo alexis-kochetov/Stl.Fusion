@@ -1,6 +1,16 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Stl.Conversion.Internal;
 
-public class InterfaceConverter<TSource, TTarget> : Converter<TSource, TTarget>
+public class InterfaceConverter<
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+    TSource, 
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+    TTarget> : Converter<TSource, TTarget>
 {
     public IConverter<TSource, TTarget> Converter { get; init; }
 

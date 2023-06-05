@@ -1,8 +1,13 @@
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Stl.Conversion.Internal;
 
-public class DefaultSourceConverterProvider<TSource> : SourceConverterProvider<TSource>
+public class DefaultSourceConverterProvider<
+#if NET5_0_OR_GREATER        
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+    TSource> : SourceConverterProvider<TSource>
 {
     private readonly ConcurrentDictionary<Type, Converter> _cache = new();
 
@@ -19,7 +24,11 @@ public class DefaultSourceConverterProvider<TSource> : SourceConverterProvider<T
             return (Converter) mGetConverter.Invoke(self, Array.Empty<object>())!;
         }, this);
 
-    protected virtual Converter<TSource, TTarget> GetConverter<TTarget>()
+    protected virtual Converter<TSource, TTarget> GetConverter<
+#if NET5_0_OR_GREATER        
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)]
+#endif
+        TTarget>()
     {
         var tSource = typeof(TSource);
         var tTarget = typeof(TTarget);
